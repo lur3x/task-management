@@ -1,0 +1,49 @@
+<div>
+  <h2>User List</h2>
+  <a routerLink="/tasks">Tasks</a>
+</div>
+<div class="content">
+  <div class="user-form">
+    <form (submit)="createUser()">
+      <label>Name:</label>
+      <input type="text" [(ngModel)]="newUser.name" name="name" />
+      <button type="submit" class="btn submit-btn">Create User</button>
+    </form>
+  </div>
+
+  <div class="user-container">
+    <ul>
+      <li *ngFor="let user of users">
+        <div class="user-content">
+          <p>Name: {{ user.name }}</p>
+          <p>Assigned Tasks:</p>
+          <ul>
+            <li *ngFor="let taskId of user.taskIds">
+              {{ getTaskName(taskId) }}
+            </li>
+          </ul>
+          <div class="form-actions">
+            <button class="btn" (click)="openTaskSelectionModal(user)">Assign Task</button>
+            <button class="btn delete-btn" (click)="deleteUser(user.id)">Delete User</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="isTaskSelectionModalOpen" class="modal">
+    <div class="modal-content">
+      <div class="action">
+        <button class="small-btn close-btn" (click)="closeTaskSelectionModal()">&times;</button>
+      </div>
+      <h3>Select Task to Assign</h3>
+      <ul>
+        <li *ngFor="let task of tasks">
+          <button class="btn task-btn" (click)="assignTaskToUser(task.id)">
+            {{ task.name }}
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
